@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1280" />
+  <title>ZYRA — Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Header: logo (left), search (center), greeting+logout (right) -->
+    <header class="topbar">
+      <div class="brand-row">
+        <!-- Left: Logo -->
+        <img src="assets/logo.png" alt="ZYRA logo" class="zyra-logo">
+
+        <!-- Center: Search bar -->
+        <div class="search-bar">
+          <input type="text" placeholder="Search for songs, artists..." id="searchInput">
+          <button id="searchBtn">🔍</button>
+        </div>
+
+        <!-- Right: Greeting + Logout -->
+        <div class="nav-right greeting-wrap" style="gap:12px; align-items:center;">
+          <span id="greetingText" class="greeting">Hi User!!</span>
+          <a href="#" id="logoutBtn" class="nav-link logout-link">Logout</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <aside class="sidebar">
+        <div class="library-header">Library</div>
+        <div id="trackList" class="track-list"></div>
+      </aside>
+
+      <section class="player-area">
+        <div class="now-playing">
+          <div class="cover">
+            <img id="coverImg" src="" alt="cover" />
+          </div>
+
+          <div class="meta">
+            <div id="trackTitle" class="title">No track selected</div>
+            <div id="trackArtist" class="artist"></div>
+            <div id="trackAlbum" class="album"></div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <div class="transport">
+            <button id="prevBtn" class="btn">⏮</button>
+            <button id="playBtn" class="btn">▶</button>
+            <button id="nextBtn" class="btn">⏭</button>
+          </div>
+
+          <div class="progress-wrap">
+            <div class="time left" id="currentTime">0:00</div>
+            <input id="progress" class="progress" type="range" value="0" min="0" step="0.1">
+            <div class="time right" id="duration">0:00</div>
+          </div>
+
+          <div class="bottom-controls">
+            <label class="vol">
+              Vol
+              <input id="volume" type="range" min="0" max="1" step="0.01" value="0.9">
+            </label>
+            <button id="muteBtn" class="btn small">🔈</button>
+            <div class="info small" id="status">Idle</div>
+          </div>
+        </div>
+
+        <div class="uploader">
+          <h3>Upload (dev - optional)</h3>
+          <p class="small">This form sends a file to your backend `/api/songs` if you have one. If you don't have a backend just ignore it.</p>
+          <form id="uploadForm">
+            <input id="uploadTitle" type="text" placeholder="Title" />
+            <input id="uploadFile" type="file" accept="audio/*" />
+            <button type="submit" class="btn">Upload</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <!-- audio element kept outside visible UI -->
+    <audio id="audio" preload="metadata"></audio>
+  </div>
+
+  <!-- your existing player script -->
+  <script src="app.js"></script>
+
+  <!-- greeting + auth guard script -->
+  <script>
+    (function(){
+      // ensure user is logged in
+      const raw = localStorage.getItem('zyraUser');
+      if (!raw) {
+        // not logged in — redirect to login page
+        window.location.href = 'login.html';
+        return;
+      }
+
+      let name = 'User';
+      try {
+        const obj = JSON.parse(raw);
+        if (obj && obj.name) name = obj.name;
+      } catch (e) {
+        // ignore
+      }
+
+      // set greeting text
+      const greeting = document.getElementById('greetingText');
+      if (greeting) greeting.textContent = `Hi ${name}!!`;
+
+      // logout handler
+      const logoutBtn = document.getElementById('logoutBtn');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', function (ev) {
+          ev.preventDefault();
+          localStorage.removeItem('zyraUser');
+          // optional: other cleanup here
+          window.location.href = 'login.html';
+        });
+      }
+
+      // wire up basic search (keeps behavior from index)
+      const searchInput = document.getElementById('searchInput');
+      const trackListEl = document.getElementById('trackList');
+
+      if (searchInput && trackListEl) {
+        searchInput.addEventListener('input', () => {
+          const query = searchInput.value.toLowerCase().trim();
+          const items = trackListEl.querySelectorAll('.track-item');
+          items.forEach(item => {
+            const title = item.querySelector('.track-title').textContent.toLowerCase();
+            const artist = item.querySelector('.track-sub').textContent.toLowerCase();
+            const match = title.includes(query) || artist.includes(query);
+            item.style.display = match ? 'flex' : 'none';
+          });
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

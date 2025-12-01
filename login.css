@@ -1,0 +1,170 @@
+/* ZYRA Login Page */
+
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background-color: #0a1322;
+  color: white;
+}
+
+/* Navbar */
+/* ===== NAV LEFT (top-left logo area) ===== */
+.nav-left {
+  position: fixed;           /* keeps it locked to top-left corner */
+  top: 20px;
+  left: 20px;
+  z-index: 1000;             /* ensures it’s above everything */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 10px 18px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+}
+
+/* Logo inside nav-left */
+.nav-left{
+  width: 140px;
+  height: auto;
+  display: block;
+  filter: brightness(1);
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+/* Hover effects */
+.nav-left:hover {
+  background: linear-gradient(90deg, #18E1D0, #9B4BFF);
+  box-shadow: 0 0 20px rgba(155,75,255,0.4);
+  transform: translateY(-3px);
+}
+
+.nav-left:hover .nav-left {
+  transform: scale(1.08);
+  filter: brightness(1.15);
+}
+
+
+/* Login container */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
+.login-card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  width: 380px;
+  text-align: center;
+}
+
+.login-card h2 {
+  margin-bottom: 8px;
+  font-size: 26px;
+}
+
+.subtitle {
+  color: #b8b8b8;
+  margin-bottom: 24px;
+}
+
+.login-card label {
+  display: block;
+  text-align: left;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #ccc;
+}
+
+.login-card input {
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  background: #121d2e;
+  color: white;
+  outline: none;
+}
+
+.login-card input:focus {
+  border: 1px solid #9B4BFF;
+}
+
+/* Button */
+.login-card button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #18E1D0, #9B4BFF);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login-card button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(155, 75, 255, 0.3);
+}
+
+/* Sign-up text */
+.signup {
+  margin-top: 16px;
+  color: #aaa;
+  font-size: 14px;
+}
+
+.signup a {
+  color: #9B4BFF;
+  text-decoration: none;
+}
+
+/* ===== floating nav-left (top-left pinned) ===== */
+.nav-left {
+  position: fixed !important;
+  top: 18px !important;
+  left: 18px !important;
+  z-index: 9999 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(2,8,18,0.45) !important;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+}
+
+/* logo inside floating box */
+.nav-left-logo {
+  width: 140px;
+  height: auto;
+  display: block;
+  transition: transform 0.22s ease, filter 0.22s ease;
+}
+
+/* hover state: glow and lift */
+.nav-left:hover {
+  transform: translateY(-4px);
+  background: linear-gradient(90deg, rgba(24,225,208,0.12), rgba(155,75,255,0.12)) !important;
+  box-shadow: 0 18px 40px rgba(155,75,255,0.16);
+}
+
+.nav-left:hover .nav-left-logo {
+  transform: scale(1.06);
+  filter: brightness(1.08);
+}
+
+/* reduce size on small screens (optional) */
+@media (max-width: 900px) {
+  .nav-left { top: 12px; left: 12px; padding: 8px; }
+  .nav-left-logo { width: 110px; }
+}
